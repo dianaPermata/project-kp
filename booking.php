@@ -115,6 +115,28 @@ return true;
         <form method="post" name="sewa" onSubmit="return valid();"> 
 			<input type="hidden" class="form-control" name="id"  value="<?php echo $id;?>"required>
     		<input type="hidden" class="form-control" name="email"  value="<?php echo $id;?>"required>
+			<div class="form-group">
+    <label>Pilih Fotografer</label>
+    <select class="form-control" name="fotografer">
+        <?php
+        // Create a SQL query to select all data from the fotografer table
+        $sql_fotografer = "SELECT * FROM fotografer";
+
+        // Execute the query and store the result
+        $result_fotografer = mysqli_query($koneksidb, $sql_fotografer);
+
+        // Check if there are any results
+        if (mysqli_num_rows($result_fotografer) > 0) {
+            // Loop through the result and for each row, create an option with the value and display text set to the fotografer's name
+            while($row_fotografer = mysqli_fetch_assoc($result_fotografer)) {
+                echo '<option value="' . $row_fotografer["id"] . '">' . $row_fotografer["name"] . '</option>';
+            }
+        } else {
+            echo '<option value="">No Fotografer Available</option>';
+        }
+        ?>
+    </select>
+</div>
             <div class="form-group">
 			<label>Tanggal Pengambilan Foto</label>
 				<input type="date" class="form-control" name="fromdate" placeholder="From Date(dd/mm/yyyy)" required>
