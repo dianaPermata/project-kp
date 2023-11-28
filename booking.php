@@ -23,10 +23,15 @@ if(isset($_POST['submit'])){
 	$fotografer_name = $_POST['fotografer_name'];
 	$stt = "Menunggu Pembayaran";
 	$trx = date('dmYHis');
+	$nama = $_SESSION['name'];
+	$no_telp = $_SESSION['no_telp'];
+	$lokasi_take = $_SESSION['lokasi'];
 
+	$booking_sql = "INSERT INTO booking (id_booking, nama, tgl_take, jam_take, lokasi_take, no_telp, fotografer)
+			   VALUES('$trx','$nama','$fromdate','$jam','$lokasi_take','$no_telp','$fotografer_name')";
 	$sql 	= "INSERT INTO transaksi (id_trx,email,id_paket,tgl_trx,stt_trx,tgl_take,jam_take,catatan,fotografer)
 			   VALUES('$trx','$email','$id','$tglnow','$stt','$fromdate','$jam','$cat','$fotografer_name')";
-	$query 	= mysqli_query($koneksidb,$sql);
+	$query 	= mysqli_query($koneksidb,$sql, $booking_sql);
 	if($query){
 		echo " <script> alert ('Transaksi Berhasil.'); </script> ";
 		echo "<script type='text/javascript'> document.location = 'riwayatsewa.php'; </script>";
@@ -138,6 +143,22 @@ return true;
         ?>
     </select>
 </div>
+			<div class="form-group">
+			<label>Nama Pemesan</label>
+				<input type="text" class="form-control" name="nama" placeholder="Nama Pemesan" value="<?php echo $_SESSION['name'];?>" required>
+			</div>
+			<div class="form-group">
+			<label>Lokasi Pengambilan Foto</label>
+				<input type="text" class="form-control" name="lokasi" placeholder="Lokasi Pengambilan Foto" required>
+			</div>
+			<div class="form-group">
+			<label>Alamat Pemesan</label>
+				<input type="text" class="form-control" name="alamat" placeholder="Alamat Pemesan" required>
+			</div>
+			<div class="form-group">
+			<label>No. Telp</label>
+				<input type="text" class="form-control" name="no_telp" placeholder="No. Telp" required>
+			</div>
             <div class="form-group">
 			<label>Tanggal Pengambilan Foto</label>
 				<input type="date" class="form-control" name="fromdate" placeholder="From Date(dd/mm/yyyy)" required>
