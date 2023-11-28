@@ -14,7 +14,7 @@ if(strlen($_SESSION['ulogin'])==0){
 	$now = date("Y-m-d",$tglplus);
 
 if(isset($_POST['submit'])){
-	$fromdate=$_POST['fromdate'];
+	$fromdate = $_POST['fromdate'];
 	$tglnow   = date('Y-m-d');
 	$id=$_POST['id'];
 	$jam=$_POST['jam'];
@@ -23,16 +23,19 @@ if(isset($_POST['submit'])){
 	$fotografer_name = $_POST['fotografer_name'];
 	$stt = "Menunggu Pembayaran";
 	$trx = date('dmYHis');
-	$nama = $_SESSION['name'];
-	$no_telp = $_SESSION['no_telp'];
-	$lokasi_take = $_SESSION['lokasi'];
+	$nama = $_POST['nama'];
+	$lokasi_take = $_POST['lokasi'];
+	$alamat = $_POST['alamat'];
+	$no_telp = $_POST['no_telp'];
+
 
 	$booking_sql = "INSERT INTO booking (id_booking, nama, tgl_take, jam_take, lokasi_take, no_telp, fotografer)
 			   VALUES('$trx','$nama','$fromdate','$jam','$lokasi_take','$no_telp','$fotografer_name')";
 	$sql 	= "INSERT INTO transaksi (id_trx,email,id_paket,tgl_trx,stt_trx,tgl_take,jam_take,catatan,fotografer)
 			   VALUES('$trx','$email','$id','$tglnow','$stt','$fromdate','$jam','$cat','$fotografer_name')";
-	$query 	= mysqli_query($koneksidb,$sql, $booking_sql);
-	if($query){
+	$query_booking = mysqli_query($koneksidb,$booking_sql);
+	$query = mysqli_query($koneksidb,$sql);
+	if($query && $query_booking){
 		echo " <script> alert ('Transaksi Berhasil.'); </script> ";
 		echo "<script type='text/javascript'> document.location = 'riwayatsewa.php'; </script>";
 	}else{
@@ -71,6 +74,7 @@ if(isset($_POST['submit'])){
 <link rel="apple-touch-icon-precomposed" href="assets/images/favicon-icon/apple-touch-icon-57-precomposed.png">
 <link rel="shortcut icon" href="admin/img/S09-Removebg.png">
 <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet"> 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 <body>
 
@@ -106,6 +110,8 @@ return true;
 }
 </script>
 
+
+
 	<section class="user_profile inner_pages">
 	<div class="container">
 	<div class="col-md-6 col-sm-8">
@@ -123,7 +129,7 @@ return true;
     		<input type="hidden" class="form-control" name="email"  value="<?php echo $id;?>"required>
 			<div class="form-group">
     <label>Pilih Fotografer</label>
-    <select class="form-control" name="fotografer_name">
+    <select class="form-control" name="fotografer_name" id="fotografer_name">
         <?php
         // Create a SQL query to select all data from the fotografer table
         $sql_fotografer = "SELECT * FROM fotografer";
@@ -160,10 +166,10 @@ return true;
 				<input type="text" class="form-control" name="no_telp" placeholder="No. Telp" required>
 			</div>
             <div class="form-group">
-			<label>Tanggal Pengambilan Foto</label>
-				<input type="date" class="form-control" name="fromdate" placeholder="From Date(dd/mm/yyyy)" required>
-				<input type="hidden" name="now" class="form-control" value="<?php echo $now;?>">
-            </div>
+			<label>Tanggal Pengambilan Foto</label><br/>
+				<input type="text" class="form-control" name="fromdate" id="fromdate" placeholder="From Date(dd/mm/yyyy)" required>
+				<input type="hidden" class="form-control" name="now" id="now" value="<?php echo $now;?>" required>
+			</div>
 			<div class="form-group">
 			<label>Jam</label><br/>
 				<select class="form-control" name="jam" required>
@@ -210,6 +216,39 @@ return true;
 <!--Slider-JS--> 
 <script src="assets/js/slick.min.js"></script> 
 <script src="assets/js/owl.carousel.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+	$(document).ready(function() {
+    var bookedDates = [];
+
+    // Fetch the booked dates when the photographer selection changes
+    $('#fotografer_name').change(function() {
+        var fotografer_name = $(this).val();
+
+        $.ajax({
+            url: 'getBookedDates.php',
+            type: 'POST',
+            data: {fotografer_name: fotografer_name},
+            dataType: 'json',
+            success: function(data) {
+                bookedDates = data;
+                $('#fromdate').datepicker('refresh'); // Refresh the datepicker
+            }
+        });
+    });
+
+    // Initialize the datepicker
+    $('#fromdate').datepicker({
+        beforeShowDay: function(date) {
+            var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+            return [ bookedDates.indexOf(string) == -1 ]
+        },
+        minDate: 1 // Disallow the selection of dates in the past
+    });
+});
+</script>
+
 </body>
 </html>
 <?php } ?>
