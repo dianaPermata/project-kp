@@ -231,10 +231,12 @@ return true;
             type: 'POST',
             data: {fotografer_name: fotografer_name},
             dataType: 'json',
-            success: function(data) {
-                bookedDates = data;
-                $('#fromdate').datepicker('refresh'); // Refresh the datepicker
-            }
+			success: function(data) {
+ 		    bookedDates = data.map(function(date) {
+        return $.datepicker.formatDate('yy-mm-dd', new Date(date));
+    });
+    $('#fromdate').datepicker('refresh'); // Refresh the datepicker
+}
         });
     });
 
