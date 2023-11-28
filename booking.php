@@ -14,7 +14,7 @@ if(strlen($_SESSION['ulogin'])==0){
 	$now = date("Y-m-d",$tglplus);
 
 if(isset($_POST['submit'])){
-	$fromdate = $_POST['fromdate'];
+	$fromdate = DateTime::createFromFormat('m/d/Y', $_POST['fromdate'])->format('Y-m-d');
 	$tglnow   = date('Y-m-d');
 	$id=$_POST['id'];
 	$jam=$_POST['jam'];
@@ -167,7 +167,7 @@ return true;
 			</div>
             <div class="form-group">
 			<label>Tanggal Pengambilan Foto</label><br/>
-				<input type="text" class="form-control" name="fromdate" id="fromdate" placeholder="From Date(dd/mm/yyyy)" required>
+				<input type="text" class="form-control" name="fromdate" id="fromdate" placeholder="From Date(dd/mm/yyyy)" autocomplete="off" required>
 				<input type="hidden" class="form-control" name="now" id="now" value="<?php echo $now;?>" required>
 			</div>
 			<div class="form-group">
