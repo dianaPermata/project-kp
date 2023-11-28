@@ -20,11 +20,12 @@ if(isset($_POST['submit'])){
 	$jam=$_POST['jam'];
 	$cat=$_POST['catatan'];
 	$email=$_SESSION['ulogin'];
+	$fotografer_name = $_POST['fotografer_name'];
 	$stt = "Menunggu Pembayaran";
 	$trx = date('dmYHis');
 
-	$sql 	= "INSERT INTO transaksi (id_trx,email,id_paket,tgl_trx,stt_trx,tgl_take,jam_take,catatan)
-			   VALUES('$trx','$email','$id','$tglnow','$stt','$fromdate','$jam','$cat')";
+	$sql 	= "INSERT INTO transaksi (id_trx,email,id_paket,tgl_trx,stt_trx,tgl_take,jam_take,catatan,fotografer)
+			   VALUES('$trx','$email','$id','$tglnow','$stt','$fromdate','$jam','$cat','$fotografer_name')";
 	$query 	= mysqli_query($koneksidb,$sql);
 	if($query){
 		echo " <script> alert ('Transaksi Berhasil.'); </script> ";
@@ -117,7 +118,7 @@ return true;
     		<input type="hidden" class="form-control" name="email"  value="<?php echo $id;?>"required>
 			<div class="form-group">
     <label>Pilih Fotografer</label>
-    <select class="form-control" name="fotografer">
+    <select class="form-control" name="fotografer_name">
         <?php
         // Create a SQL query to select all data from the fotografer table
         $sql_fotografer = "SELECT * FROM fotografer";
@@ -129,7 +130,7 @@ return true;
         if (mysqli_num_rows($result_fotografer) > 0) {
             // Loop through the result and for each row, create an option with the value and display text set to the fotografer's name
             while($row_fotografer = mysqli_fetch_assoc($result_fotografer)) {
-                echo '<option value="' . $row_fotografer["id"] . '">' . $row_fotografer["name"] . '</option>';
+				echo '<option value="' . $row_fotografer["name"] . '">' . $row_fotografer["name"] . '</option>';
             }
         } else {
             echo '<option value="">No Fotografer Available</option>';
