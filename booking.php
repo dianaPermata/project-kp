@@ -31,8 +31,8 @@ if(isset($_POST['submit'])){
 
 	$booking_sql = "INSERT INTO booking (id_booking, nama, tgl_take, jam_take, lokasi_take, no_telp, fotografer)
 			   VALUES('$trx','$nama','$fromdate','$jam','$lokasi_take','$no_telp','$fotografer_name')";
-	$sql 	= "INSERT INTO transaksi (id_trx,email,id_paket,tgl_trx,stt_trx,tgl_take,jam_take,catatan,fotografer)
-			   VALUES('$trx','$email','$id','$tglnow','$stt','$fromdate','$jam','$cat','$fotografer_name')";
+	$sql 	= "INSERT INTO transaksi (id_trx,email,id_paket,tgl_trx,stt_trx,tgl_take,jam_take,lokasi_take,catatan,fotografer)
+			   VALUES('$trx','$email','$id','$tglnow','$stt','$fromdate','$jam', '$lokasi_take', '$cat','$fotografer_name')";
 	$query_booking = mysqli_query($koneksidb,$booking_sql);
 	$query = mysqli_query($koneksidb,$sql);
 	if($query && $query_booking){
