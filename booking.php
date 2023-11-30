@@ -128,27 +128,28 @@ return true;
 			<input type="hidden" class="form-control" name="id"  value="<?php echo $id;?>"required>
     		<input type="hidden" class="form-control" name="email"  value="<?php echo $id;?>"required>
 			<div class="form-group">
-    <label>Pilih Fotografer</label>
-    <select class="form-control" name="fotografer_name" id="fotografer_name">
-        <?php
-        // Create a SQL query to select all data from the fotografer table
-        $sql_fotografer = "SELECT * FROM fotografer";
+				<label>Pilih Fotografer</label>
+				<select class="form-control" name="fotografer_name" id="fotografer_name">
+					<option value="">Select Fotografer</option>
+					<?php
+					// Create a SQL query to select all data from the fotografer table
+					$sql_fotografer = "SELECT * FROM fotografer";
 
-        // Execute the query and store the result
-        $result_fotografer = mysqli_query($koneksidb, $sql_fotografer);
+					// Execute the query and store the result
+					$result_fotografer = mysqli_query($koneksidb, $sql_fotografer);
 
-        // Check if there are any results
-        if (mysqli_num_rows($result_fotografer) > 0) {
-            // Loop through the result and for each row, create an option with the value and display text set to the fotografer's name
-            while($row_fotografer = mysqli_fetch_assoc($result_fotografer)) {
-				echo '<option value="' . $row_fotografer["name"] . '">' . $row_fotografer["name"] . '</option>';
-            }
-        } else {
-            echo '<option value="">No Fotografer Available</option>';
-        }
-        ?>
-    </select>
-</div>
+					// Check if there are any results
+					if (mysqli_num_rows($result_fotografer) > 0) {
+						// Loop through the result and for each row, create an option with the value and display text set to the fotografer's name
+						while($row_fotografer = mysqli_fetch_assoc($result_fotografer)) {
+							echo '<option value="' . $row_fotografer["name"] . '">' . $row_fotografer["name"] . '</option>';
+						}
+					} else {
+						echo '<option value="">No Fotografer Available</option>';
+					}
+					?>
+				</select>
+			</div>
 			<div class="form-group">
 			<label>Nama Pemesan</label>
 				<input type="text" class="form-control" name="nama" placeholder="Nama Pemesan" value="<?php echo $_SESSION['name'];?>" required>
@@ -163,11 +164,16 @@ return true;
 			</div>
 			<div class="form-group">
 			<label>No. Telp</label>
-				<input type="text" class="form-control" name="no_telp" placeholder="No. Telp" required>
+			<input type="text" class="form-control" name="no_telp" placeholder="No. Telp" pattern="[0-9]+" title="Please enter only numbers" required>
 			</div>
-            <div class="form-group">
-			<label>Tanggal Pengambilan Foto</label><br/>
-				<input type="text" class="form-control" name="fromdate" id="fromdate" placeholder="From Date(dd/mm/yyyy)" autocomplete="off" required>
+			<div class="form-group">
+				<label>Tanggal Pengambilan Foto</label><br/>
+				<div class="input-group date">
+					<input type="text" class="form-control" name="fromdate" id="fromdate" placeholder="(dd/mm/yyyy)" autocomplete="off" required>
+					<span class="input-group-addon">
+						<span class="glyphicon glyphicon-calendar"></span>
+					</span>
+				</div>
 				<input type="hidden" class="form-control" name="now" id="now" value="<?php echo $now;?>" required>
 			</div>
 			<div class="form-group">
