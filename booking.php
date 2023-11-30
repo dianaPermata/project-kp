@@ -37,7 +37,7 @@ if(isset($_POST['submit'])){
 	$query = mysqli_query($koneksidb,$sql);
 	if($query && $query_booking){
 		echo " <script> alert ('Transaksi Berhasil.'); </script> ";
-		echo "<script type='text/javascript'> document.location = 'riwayatsewa.php'; </script>";
+		echo "<script type='text/javascript'> document.location = 'index.php'; </script>";
 	}else{
 		echo " <script> alert ('Ooops, terjadi kesalahan. Silahkan coba lagi.'); </script> ";
 		echo "<script type='text/javascript'> document.location = 'booking.php?id=$id'; </script>";
