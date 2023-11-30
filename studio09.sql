@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 30 Nov 2023 pada 05.13
+-- Waktu pembuatan: 30 Nov 2023 pada 15.14
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 8.2.0
 
@@ -221,7 +221,8 @@ CREATE TABLE `transaksi` (
   `tgl_bayar` date NOT NULL,
   `bukti_bayar` text NOT NULL,
   `ubah_tgl` int(1) NOT NULL,
-  `fotografer` varchar(255) NOT NULL
+  `fotografer` varchar(255) NOT NULL,
+  `lokasi_take` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
