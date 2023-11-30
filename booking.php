@@ -21,7 +21,7 @@ if(isset($_POST['submit'])){
 	$cat=$_POST['catatan'];
 	$email=$_SESSION['ulogin'];
 	$fotografer_name = $_POST['fotografer_name'];
-	$stt = "Menunggu Pembayaran";
+	$stt = "Menunggu Pesanan Diterima";
 	$trx = date('dmYHis');
 	$nama = $_POST['nama'];
 	$lokasi_take = $_POST['lokasi'];
