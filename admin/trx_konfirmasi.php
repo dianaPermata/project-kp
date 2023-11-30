@@ -82,6 +82,8 @@ else{
 										<th>No</th>
 										<th>Kode Booking</th>
 										<th>Paket </th>
+										<th>lokasi take</th>
+										<th>Fotografer</th>
 										<th>Tgl. Take</th>
 										<th>Jam</th>
 										<th>Biaya</th>
@@ -93,7 +95,7 @@ else{
 									<tbody>
 									<?php
 										$i=0;
-										$sqlsewa = "SELECT transaksi.*,paket.*,member.* FROM transaksi, paket, member 
+										$sqlsewa = "SELECT transaksi.*,paket.*,member.* FROM transaksi, paket, member
 													WHERE transaksi.id_paket=paket.id_paket AND transaksi.email=member.email 
 													AND transaksi.stt_trx='Menunggu Konfirmasi'
 													ORDER BY transaksi.id_trx DESC";
@@ -105,6 +107,8 @@ else{
 											<td><?php echo $i;?></td>
 											<td><?php echo htmlentities($result['id_trx']);?></td>
 											<td><?php echo htmlentities($result['nama_paket']);?></td>
+											<td><?php echo htmlentities($result['lokasi_take']);?></td>
+											<td><?php echo htmlentities($result['fotografer']);?></td>
 											<td><?php echo IndonesiaTgl(htmlentities($result['tgl_take']));?></td>
 											<td><?php echo htmlentities($result['jam_take']);?></td>
 											<td><?php echo format_rupiah(htmlentities($result['harga']));?></td>
