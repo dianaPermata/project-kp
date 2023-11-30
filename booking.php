@@ -169,7 +169,7 @@ return true;
 			<div class="form-group">
 				<label>Tanggal Pengambilan Foto</label><br/>
 				<div class="input-group date">
-					<input type="text" class="form-control" name="fromdate" id="fromdate" placeholder="Pilih Tanggal Fotografer Tersedia" autocomplete="off" required>
+					<input type="text" class="form-control" name="fromdate" id="fromdate" placeholder="Pilih Tanggal Fotografer Tersedia" autocomplete="off" readonly required>
 					<span class="input-group-addon">
 						<span class="glyphicon glyphicon-calendar"></span>
 					</span>
@@ -231,6 +231,9 @@ return true;
     // Fetch the booked dates when the photographer selection changes
     $('#fotografer_name').change(function() {
         var fotografer_name = $(this).val();
+
+		        // Clear the date input field
+				$('#fromdate').val('');
 
         $.ajax({
             url: 'getBookedDates.php',
