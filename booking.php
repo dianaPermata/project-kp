@@ -129,7 +129,7 @@ return true;
     		<input type="hidden" class="form-control" name="email"  value="<?php echo $id;?>"required>
 			<div class="form-group">
 				<label>Pilih Fotografer</label>
-				<select class="form-control" name="fotografer_name" id="fotografer_name">
+				<select class="form-control" name="fotografer_name" id="fotografer_name" required="true">
 					<option value="">Select Fotografer</option>
 					<?php
 					// Create a SQL query to select all data from the fotografer table
@@ -169,7 +169,7 @@ return true;
 			<div class="form-group">
 				<label>Tanggal Pengambilan Foto</label><br/>
 				<div class="input-group date">
-					<input type="text" class="form-control" name="fromdate" id="fromdate" placeholder="(dd/mm/yyyy)" autocomplete="off" required>
+					<input type="text" class="form-control" name="fromdate" id="fromdate" placeholder="Pilih Tanggal Fotografer Tersedia" autocomplete="off" required>
 					<span class="input-group-addon">
 						<span class="glyphicon glyphicon-calendar"></span>
 					</span>
