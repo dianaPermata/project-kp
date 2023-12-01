@@ -6,6 +6,7 @@
 				<li><a href="paket.php"><i class="fa fa-cart-plus"></i>Daftar Paket</a></li>
 				<li><a href="#"><i class="fa fa-exchange"></i>Transaksi</a>
 					<ul class="ts-sidebar-menu">
+						<li><a href="trx_menunggu_diterima.php">Menunggu Diterima</a></li>
 						<li><a href="trx_bayar.php">Menunggu Pembayaran</a></li>				  						
 						<li><a href="trx_konfirmasi.php">Menunggu Konfirmasi</a></li>
 						<li><a href="trx.php">Data Booking</a></li>

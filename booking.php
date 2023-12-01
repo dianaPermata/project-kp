@@ -14,21 +14,30 @@ if(strlen($_SESSION['ulogin'])==0){
 	$now = date("Y-m-d",$tglplus);
 
 if(isset($_POST['submit'])){
-	$fromdate=$_POST['fromdate'];
+	$fromdate = DateTime::createFromFormat('m/d/Y', $_POST['fromdate'])->format('Y-m-d');
 	$tglnow   = date('Y-m-d');
 	$id=$_POST['id'];
 	$jam=$_POST['jam'];
 	$cat=$_POST['catatan'];
 	$email=$_SESSION['ulogin'];
-	$stt = "Menunggu Pembayaran";
+	$fotografer_name = $_POST['fotografer_name'];
+	$stt = "Menunggu Pesanan Diterima";
 	$trx = date('dmYHis');
+	$nama = $_POST['nama'];
+	$lokasi_take = $_POST['lokasi'];
+	$alamat = $_POST['alamat'];
+	$no_telp = $_POST['no_telp'];
 
-	$sql 	= "INSERT INTO transaksi (id_trx,email,id_paket,tgl_trx,stt_trx,tgl_take,jam_take,catatan)
-			   VALUES('$trx','$email','$id','$tglnow','$stt','$fromdate','$jam','$cat')";
-	$query 	= mysqli_query($koneksidb,$sql);
-	if($query){
+
+	$booking_sql = "INSERT INTO booking (id_booking, nama, tgl_take, jam_take, lokasi_take, fotografer)
+			   VALUES('$trx','$nama','$fromdate','$jam','$lokasi_take','$fotografer_name')";
+	$sql 	= "INSERT INTO transaksi (id_trx,email,id_paket,tgl_trx,stt_trx,tgl_take,jam_take,lokasi_take,catatan,fotografer,no_telp)
+			   VALUES('$trx','$email','$id','$tglnow','$stt','$fromdate','$jam', '$lokasi_take', '$cat','$fotografer_name','$no_telp')";
+	$query_booking = mysqli_query($koneksidb,$booking_sql);
+	$query = mysqli_query($koneksidb,$sql);
+	if($query && $query_booking){
 		echo " <script> alert ('Transaksi Berhasil.'); </script> ";
-		echo "<script type='text/javascript'> document.location = 'riwayatsewa.php'; </script>";
+		echo "<script type='text/javascript'> document.location = 'index.php'; </script>";
 	}else{
 		echo " <script> alert ('Ooops, terjadi kesalahan. Silahkan coba lagi.'); </script> ";
 		echo "<script type='text/javascript'> document.location = 'booking.php?id=$id'; </script>";
@@ -65,6 +74,7 @@ if(isset($_POST['submit'])){
 <link rel="apple-touch-icon-precomposed" href="assets/images/favicon-icon/apple-touch-icon-57-precomposed.png">
 <link rel="shortcut icon" href="admin/img/S09-Removebg.png">
 <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet"> 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 <body>
 
@@ -100,6 +110,8 @@ return true;
 }
 </script>
 
+
+
 	<section class="user_profile inner_pages">
 	<div class="container">
 	<div class="col-md-6 col-sm-8">
@@ -115,11 +127,52 @@ return true;
         <form method="post" name="sewa" onSubmit="return valid();"> 
 			<input type="hidden" class="form-control" name="id"  value="<?php echo $id;?>"required>
     		<input type="hidden" class="form-control" name="email"  value="<?php echo $id;?>"required>
-            <div class="form-group">
-			<label>Tanggal Pengambilan Foto</label>
-				<input type="date" class="form-control" name="fromdate" placeholder="From Date(dd/mm/yyyy)" required>
-				<input type="hidden" name="now" class="form-control" value="<?php echo $now;?>">
-            </div>
+			<input type="hidden" id="no_telp" name="no_telp">
+			<div class="form-group">
+				<label>Pilih Fotografer</label>
+				<select class="form-control" name="fotografer_name" id="fotografer_name" required="true">
+					<option value="">Select Fotografer</option>
+					<?php
+					// Create a SQL query to select all data from the fotografer table
+					$sql_fotografer = "SELECT * FROM fotografer";
+
+					// Execute the query and store the result
+					$result_fotografer = mysqli_query($koneksidb, $sql_fotografer);
+
+					// Check if there are any results
+					if (mysqli_num_rows($result_fotografer) > 0) {
+						// Loop through the result and for each row, create an option with the value and display text set to the fotografer's name
+						while($row_fotografer = mysqli_fetch_assoc($result_fotografer)) {
+							echo '<option value="' . $row_fotografer["name"] . '" data-no-telp="' . $row_fotografer["no_telp"] . '">' . $row_fotografer["name"] . '</option>';
+						}
+					} else {
+						echo '<option value="">No Fotografer Available</option>';
+					}
+					?>
+				</select>
+			</div>
+			<div class="form-group">
+			<label>Nama Pemesan</label>
+				<input type="text" class="form-control" name="nama" placeholder="Nama Pemesan" value="<?php echo $_SESSION['name'];?>" required>
+			</div>
+			<div class="form-group">
+			<label>Lokasi Pengambilan Foto</label>
+				<input type="text" class="form-control" name="lokasi" placeholder="Lokasi Pengambilan Foto" required>
+			</div>
+			<div class="form-group">
+			<label>Alamat Pemesan</label>
+				<input type="text" class="form-control" name="alamat" placeholder="Alamat Pemesan" required>
+			</div>
+			<div class="form-group">
+				<label>Tanggal Pengambilan Foto</label><br/>
+				<div class="input-group date">
+					<input type="text" class="form-control" name="fromdate" id="fromdate" placeholder="Pilih Tanggal Fotografer Tersedia" autocomplete="off" readonly required>
+					<span class="input-group-addon">
+						<span class="glyphicon glyphicon-calendar"></span>
+					</span>
+				</div>
+				<input type="hidden" class="form-control" name="now" id="now" value="<?php echo $now;?>" required>
+			</div>
 			<div class="form-group">
 			<label>Jam</label><br/>
 				<select class="form-control" name="jam" required>
@@ -166,6 +219,47 @@ return true;
 <!--Slider-JS--> 
 <script src="assets/js/slick.min.js"></script> 
 <script src="assets/js/owl.carousel.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+	$(document).ready(function() {
+    var bookedDates = [];
+
+    // Fetch the booked dates when the photographer selection changes
+    $('#fotografer_name').change(function() {
+		var selectedOption = $(this).find('option:selected');
+		var noTelp = selectedOption.data('no-telp');
+		$('#no_telp').val(noTelp);
+        var fotografer_name = $(this).val();
+
+		        // Clear the date input field
+				$('#fromdate').val('');
+
+        $.ajax({
+            url: 'getBookedDates.php',
+            type: 'POST',
+            data: {fotografer_name: fotografer_name},
+            dataType: 'json',
+			success: function(data) {
+ 		    bookedDates = data.map(function(date) {
+        return $.datepicker.formatDate('yy-mm-dd', new Date(date));
+    });
+    $('#fromdate').datepicker('refresh'); // Refresh the datepicker
+}
+        });
+    });
+
+    // Initialize the datepicker
+    $('#fromdate').datepicker({
+        beforeShowDay: function(date) {
+            var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+            return [ bookedDates.indexOf(string) == -1 ]
+        },
+        minDate: 1 // Disallow the selection of dates in the past
+    });
+});
+</script>
+
 </body>
 </html>
 <?php } ?>

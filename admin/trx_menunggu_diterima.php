@@ -69,11 +69,11 @@ else{
 				<div class="row">
 					<div class="col-md-12">
 
-						<h2 class="page-title">Menunggu Konfirmasi</h2>
+						<h2 class="page-title">Menunggu Pesanan Diterima</h2>
 						
 						<!-- Zero Configuration Table -->
 						<div class="panel panel-default">
-							<div class="panel-heading">Daftar Menunggu Konfirmasi</div>
+							<div class="panel-heading">Daftar Menunggu Pesanan Diterima</div>
 							<div class="panel-body">
 							<div class = "table-responsive">
 								<table id="zctb" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
@@ -97,7 +97,7 @@ else{
 										$i=0;
 										$sqlsewa = "SELECT transaksi.*,paket.*,member.* FROM transaksi, paket, member
 													WHERE transaksi.id_paket=paket.id_paket AND transaksi.email=member.email 
-													AND transaksi.stt_trx='Menunggu Konfirmasi'
+													AND transaksi.stt_trx='Menunggu Pesanan Diterima'
 													ORDER BY transaksi.id_trx DESC";
 										$querysewa = mysqli_query($koneksidb,$sqlsewa);
 										while ($result = mysqli_fetch_array($querysewa)) {
@@ -114,24 +114,18 @@ else{
 											<td><?php echo format_rupiah(htmlentities($result['harga']));?></td>
 											<td><a href="#myModal" data-toggle="modal" data-load-id="<?php echo $result['email']; ?>" data-remote-target="#myModal .modal-body"><?php echo $result['nama_user']; ?></a></td>
 											<td><?php echo htmlentities($result['stt_trx']);?></td>
-											<td>
-											<a href="trx_konfirmasi_cek.php?id=<?php echo $result['id_trx'];?>" class="btn btn-warning btn-xs">&nbsp;&nbsp;Cek Pembayaran&nbsp;&nbsp;</a></td>
+                                            <td>
+                                                <!-- confirmation button change status to menunggu pembayaran -->
+                                                <a href="konfirmasi.php?trxid=<?php echo htmlentities($result['id_trx']);?>&email=<?php echo htmlentities($result['email']);?>&status=Menunggu Pembayaran" onclick="return confirm('Apakah anda yakin ingin mengkonfirmasi?');">
+                                                    <button class="btn btn-primary">Konfirmasi</button>
+                                                </a>
+                                            </td>
+                                            </a></td>
 										</tr>
 										<?php }?>
 									</tbody>
 								</table>
 							</div>
-	<!-- Large modal -->
-	<div class="modal fade bs-example-modal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-body">
-					<p>One fine body…</p>
-				</div>
-			</div>
-		</div>
-	</div>    
-	<!-- Large modal --> 
 
 							</div>
 						</div>

@@ -90,6 +90,10 @@ $tglhasil = date("Y-m-d",$tgl);
 			<label>Catatan</label><br/>
 				<textarea class="form-control" readonly><?php echo $result['catatan'];?></textarea>
             </div>
+			<div class="form-group">
+				<label>Fotografer</label><br/>
+				<input type="text" class="form-control" name="fotografer" value="<?php echo $result['fotografer'];?>"readonly>
+			</div>
 			<?php if($result['stt_trx']=="Menunggu Pembayaran"){
 				$sqlrek 	= "SELECT * FROM tblpages WHERE id='5'";
 				$queryrek = mysqli_query($koneksidb,$sqlrek);

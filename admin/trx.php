@@ -82,6 +82,8 @@ else{
 										<th>No</th>
 										<th>Kode Booking</th>
 										<th>Paket </th>
+										<th>Lokasi Take</th>
+										<th>Fotografer</th>
 										<th>Tgl. Take</th>
 										<th>Jam</th>
 										<th>Biaya</th>
@@ -104,6 +106,8 @@ else{
 											<td><?php echo $i;?></td>
 											<td><?php echo htmlentities($result['id_trx']);?></td>
 											<td><?php echo htmlentities($result['nama_paket']);?></td>
+											<td><?php echo htmlentities($result['lokasi_take']);?></td>
+											<td><?php echo htmlentities($result['fotografer']);?></td>
 											<td><?php echo IndonesiaTgl(htmlentities($result['tgl_take']));?></td>
 											<td><?php echo htmlentities($result['jam_take']);?></td>
 											<td><?php echo format_rupiah(htmlentities($result['harga']));?></td>

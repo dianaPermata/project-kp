@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 26, 2023 at 02:17 AM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 8.0.11
+-- Waktu pembuatan: 01 Des 2023 pada 09.49
+-- Versi server: 10.4.27-MariaDB
+-- Versi PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admin`
+-- Struktur dari tabel `admin`
 --
 
 CREATE TABLE `admin` (
@@ -34,10 +34,10 @@ CREATE TABLE `admin` (
   `Password` varchar(100) NOT NULL,
   `updationDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp(),
   `Image` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `admin`
+-- Dumping data untuk tabel `admin`
 --
 
 INSERT INTO `admin` (`id`, `name`, `UserName`, `Password`, `updationDate`, `Image`) VALUES
@@ -46,7 +46,22 @@ INSERT INTO `admin` (`id`, `name`, `UserName`, `Password`, `updationDate`, `Imag
 -- --------------------------------------------------------
 
 --
--- Table structure for table `contactus`
+-- Struktur dari tabel `booking`
+--
+
+CREATE TABLE `booking` (
+  `id_booking` varchar(255) NOT NULL,
+  `nama` varchar(255) NOT NULL,
+  `tgl_take` date NOT NULL,
+  `jam_take` time NOT NULL,
+  `lokasi_take` varchar(255) NOT NULL,
+  `fotografer` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `contactus`
 --
 
 CREATE TABLE `contactus` (
@@ -58,12 +73,12 @@ CREATE TABLE `contactus` (
   `tgl_posting` timestamp NOT NULL DEFAULT current_timestamp(),
   `status` int(11) DEFAULT NULL,
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `contactusinfo`
+-- Struktur dari tabel `contactusinfo`
 --
 
 CREATE TABLE `contactusinfo` (
@@ -74,10 +89,10 @@ CREATE TABLE `contactusinfo` (
   `instagram_kami` varchar(255) DEFAULT NULL,
   `id` int(11) NOT NULL,
   `instagram_url` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `contactusinfo`
+-- Dumping data untuk tabel `contactusinfo`
 --
 
 INSERT INTO `contactusinfo` (`id_info`, `alamat_kami`, `email_kami`, `telp_kami`, `instagram_kami`, `id`, `instagram_url`) VALUES
@@ -86,7 +101,30 @@ INSERT INTO `contactusinfo` (`id_info`, `alamat_kami`, `email_kami`, `telp_kami`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `member`
+-- Struktur dari tabel `fotografer`
+--
+
+CREATE TABLE `fotografer` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `no_telp` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `fotografer`
+--
+
+INSERT INTO `fotografer` (`id`, `name`, `no_telp`) VALUES
+(1, 'John Doe', '08221537842'),
+(2, 'Jane Smith', '08125362836'),
+(3, 'Robert Johnson', '085163725378'),
+(4, 'Michael Williams', '088254725473'),
+(5, 'Sarah Davis', '08152436473');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `member`
 --
 
 CREATE TABLE `member` (
@@ -98,19 +136,20 @@ CREATE TABLE `member` (
   `alamat` varchar(255) DEFAULT NULL,
   `token` varchar(255) NOT NULL,
   `is_verified` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `member`
+-- Dumping data untuk tabel `member`
 --
 
 INSERT INTO `member` (`id_user`, `nama_user`, `email`, `password`, `telp`, `alamat`, `token`, `is_verified`) VALUES
-(9, 'Diana Permata Putri', 'dianapermatap2120@gmail.com', '79def03a931664bf3ff6192bdf450388', '081216060546', 'Ds. Karangrejo, Kawedanan, Magetan, Jawa Timur, Indonesia', 'fdc37688f7ed2468884eb6b0100ed35d', 1);
+(9, 'Diana Permata Putri', 'dianapermatap2120@gmail.com', '79def03a931664bf3ff6192bdf450388', '081216060546', 'Ds. Karangrejo, Kawedanan, Magetan, Jawa Timur, Indonesia', 'fdc37688f7ed2468884eb6b0100ed35d', 1),
+(12, 'al fikri', 'al@mail.com', 'cf44c9d6abeb6e110eadc6d370d9a798', '0248446000', 'Jalan Kyai Hj. Ahmad Dahlan', '8eebeffc4fa224132ab35ad263432558', 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `paket`
+-- Struktur dari tabel `paket`
 --
 
 CREATE TABLE `paket` (
@@ -120,10 +159,10 @@ CREATE TABLE `paket` (
   `ket_paket` text NOT NULL,
   `foto_paket` text NOT NULL,
   `foto_paket2` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `paket`
+-- Dumping data untuk tabel `paket`
 --
 
 INSERT INTO `paket` (`id_paket`, `nama_paket`, `harga`, `ket_paket`, `foto_paket`, `foto_paket2`) VALUES
@@ -142,17 +181,17 @@ INSERT INTO `paket` (`id_paket`, `nama_paket`, `harga`, `ket_paket`, `foto_paket
 -- --------------------------------------------------------
 
 --
--- Table structure for table `portofolio`
+-- Struktur dari tabel `portofolio`
 --
 
 CREATE TABLE `portofolio` (
   `id_portofolio` int(11) NOT NULL,
   `nama_portofolio` varchar(100) NOT NULL,
   `foto_portofolio` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `portofolio`
+-- Dumping data untuk tabel `portofolio`
 --
 
 INSERT INTO `portofolio` (`id_portofolio`, `nama_portofolio`, `foto_portofolio`) VALUES
@@ -167,7 +206,7 @@ INSERT INTO `portofolio` (`id_portofolio`, `nama_portofolio`, `foto_portofolio`)
 -- --------------------------------------------------------
 
 --
--- Table structure for table `transaksi`
+-- Struktur dari tabel `transaksi`
 --
 
 CREATE TABLE `transaksi` (
@@ -181,91 +220,112 @@ CREATE TABLE `transaksi` (
   `catatan` text NOT NULL,
   `tgl_bayar` date NOT NULL,
   `bukti_bayar` text NOT NULL,
-  `ubah_tgl` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `ubah_tgl` int(1) NOT NULL,
+  `fotografer` varchar(255) NOT NULL,
+  `lokasi_take` varchar(255) DEFAULT NULL,
+  `no_telp` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `admin`
+-- Indeks untuk tabel `admin`
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `contactus`
+-- Indeks untuk tabel `booking`
+--
+ALTER TABLE `booking`
+  ADD PRIMARY KEY (`id_booking`);
+
+--
+-- Indeks untuk tabel `contactus`
 --
 ALTER TABLE `contactus`
   ADD PRIMARY KEY (`id_cu`);
 
 --
--- Indexes for table `contactusinfo`
+-- Indeks untuk tabel `contactusinfo`
 --
 ALTER TABLE `contactusinfo`
   ADD PRIMARY KEY (`id_info`);
 
 --
--- Indexes for table `member`
+-- Indeks untuk tabel `fotografer`
+--
+ALTER TABLE `fotografer`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `member`
 --
 ALTER TABLE `member`
   ADD PRIMARY KEY (`id_user`);
 
 --
--- Indexes for table `paket`
+-- Indeks untuk tabel `paket`
 --
 ALTER TABLE `paket`
   ADD PRIMARY KEY (`id_paket`);
 
 --
--- Indexes for table `portofolio`
+-- Indeks untuk tabel `portofolio`
 --
 ALTER TABLE `portofolio`
   ADD PRIMARY KEY (`id_portofolio`);
 
 --
--- Indexes for table `transaksi`
+-- Indeks untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
   ADD PRIMARY KEY (`id_trx`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `admin`
+-- AUTO_INCREMENT untuk tabel `admin`
 --
 ALTER TABLE `admin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `contactus`
+-- AUTO_INCREMENT untuk tabel `contactus`
 --
 ALTER TABLE `contactus`
   MODIFY `id_cu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `contactusinfo`
+-- AUTO_INCREMENT untuk tabel `contactusinfo`
 --
 ALTER TABLE `contactusinfo`
   MODIFY `id_info` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `member`
+-- AUTO_INCREMENT untuk tabel `fotografer`
 --
-ALTER TABLE `member`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+ALTER TABLE `fotografer`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT for table `paket`
+-- AUTO_INCREMENT untuk tabel `member`
+--
+ALTER TABLE `member`
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT untuk tabel `paket`
 --
 ALTER TABLE `paket`
   MODIFY `id_paket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
--- AUTO_INCREMENT for table `portofolio`
+-- AUTO_INCREMENT untuk tabel `portofolio`
 --
 ALTER TABLE `portofolio`
   MODIFY `id_portofolio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
