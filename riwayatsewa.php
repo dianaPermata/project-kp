@@ -79,6 +79,7 @@ $tglhasil = date("Y-m-d",$tgl);
 			<th width="10">Biaya</th>
 			<th width="10">Status</th>
 			<th width="5">Fotografer</th>
+			<th width="5">No. Telp Fotografer</th>
 			<th width="5">Opsi</th>
 		</tr>
 	</thead>
@@ -106,6 +107,7 @@ $tglhasil = date("Y-m-d",$tgl);
 				<td><?php echo format_rupiah($result['harga']); ?></td>
 				<td><?php echo $result['stt_trx']; ?></td>
 				<td><?php echo $result['fotografer']; ?></td>
+				<td><?php echo $result['no_telp']; ?></td>
 				<td align="center">
 				<?php 
 					if($result['stt_trx']=="Sudah Dibayar"||$result['stt_trx']=="Selesai"){
