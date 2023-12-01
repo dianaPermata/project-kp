@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 30 Nov 2023 pada 15.14
+-- Waktu pembuatan: 01 Des 2023 pada 09.49
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 8.2.0
 
@@ -55,7 +55,6 @@ CREATE TABLE `booking` (
   `tgl_take` date NOT NULL,
   `jam_take` time NOT NULL,
   `lokasi_take` varchar(255) NOT NULL,
-  `no_telp` varchar(20) NOT NULL,
   `fotografer` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -107,19 +106,20 @@ INSERT INTO `contactusinfo` (`id_info`, `alamat_kami`, `email_kami`, `telp_kami`
 
 CREATE TABLE `fotografer` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL
+  `name` varchar(255) NOT NULL,
+  `no_telp` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `fotografer`
 --
 
-INSERT INTO `fotografer` (`id`, `name`) VALUES
-(1, 'John Doe'),
-(2, 'Jane Smith'),
-(3, 'Robert Johnson'),
-(4, 'Michael Williams'),
-(5, 'Sarah Davis');
+INSERT INTO `fotografer` (`id`, `name`, `no_telp`) VALUES
+(1, 'John Doe', '08221537842'),
+(2, 'Jane Smith', '08125362836'),
+(3, 'Robert Johnson', '085163725378'),
+(4, 'Michael Williams', '088254725473'),
+(5, 'Sarah Davis', '08152436473');
 
 -- --------------------------------------------------------
 
@@ -222,7 +222,8 @@ CREATE TABLE `transaksi` (
   `bukti_bayar` text NOT NULL,
   `ubah_tgl` int(1) NOT NULL,
   `fotografer` varchar(255) NOT NULL,
-  `lokasi_take` varchar(255) DEFAULT NULL
+  `lokasi_take` varchar(255) DEFAULT NULL,
+  `no_telp` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
@@ -309,7 +310,7 @@ ALTER TABLE `contactusinfo`
 -- AUTO_INCREMENT untuk tabel `fotografer`
 --
 ALTER TABLE `fotografer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT untuk tabel `member`
