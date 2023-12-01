@@ -29,10 +29,10 @@ if(isset($_POST['submit'])){
 	$no_telp = $_POST['no_telp'];
 
 
-	$booking_sql = "INSERT INTO booking (id_booking, nama, tgl_take, jam_take, lokasi_take, no_telp, fotografer)
-			   VALUES('$trx','$nama','$fromdate','$jam','$lokasi_take','$no_telp','$fotografer_name')";
-	$sql 	= "INSERT INTO transaksi (id_trx,email,id_paket,tgl_trx,stt_trx,tgl_take,jam_take,lokasi_take,catatan,fotografer)
-			   VALUES('$trx','$email','$id','$tglnow','$stt','$fromdate','$jam', '$lokasi_take', '$cat','$fotografer_name')";
+	$booking_sql = "INSERT INTO booking (id_booking, nama, tgl_take, jam_take, lokasi_take, fotografer)
+			   VALUES('$trx','$nama','$fromdate','$jam','$lokasi_take','$fotografer_name')";
+	$sql 	= "INSERT INTO transaksi (id_trx,email,id_paket,tgl_trx,stt_trx,tgl_take,jam_take,lokasi_take,catatan,fotografer,no_telp)
+			   VALUES('$trx','$email','$id','$tglnow','$stt','$fromdate','$jam', '$lokasi_take', '$cat','$fotografer_name','$no_telp')";
 	$query_booking = mysqli_query($koneksidb,$booking_sql);
 	$query = mysqli_query($koneksidb,$sql);
 	if($query && $query_booking){
@@ -127,6 +127,7 @@ return true;
         <form method="post" name="sewa" onSubmit="return valid();"> 
 			<input type="hidden" class="form-control" name="id"  value="<?php echo $id;?>"required>
     		<input type="hidden" class="form-control" name="email"  value="<?php echo $id;?>"required>
+			<input type="hidden" id="no_telp" name="no_telp">
 			<div class="form-group">
 				<label>Pilih Fotografer</label>
 				<select class="form-control" name="fotografer_name" id="fotografer_name" required="true">
@@ -142,7 +143,7 @@ return true;
 					if (mysqli_num_rows($result_fotografer) > 0) {
 						// Loop through the result and for each row, create an option with the value and display text set to the fotografer's name
 						while($row_fotografer = mysqli_fetch_assoc($result_fotografer)) {
-							echo '<option value="' . $row_fotografer["name"] . '">' . $row_fotografer["name"] . '</option>';
+							echo '<option value="' . $row_fotografer["name"] . '" data-no-telp="' . $row_fotografer["no_telp"] . '">' . $row_fotografer["name"] . '</option>';
 						}
 					} else {
 						echo '<option value="">No Fotografer Available</option>';
@@ -161,10 +162,6 @@ return true;
 			<div class="form-group">
 			<label>Alamat Pemesan</label>
 				<input type="text" class="form-control" name="alamat" placeholder="Alamat Pemesan" required>
-			</div>
-			<div class="form-group">
-			<label>No. Telp</label>
-			<input type="text" class="form-control" name="no_telp" placeholder="No. Telp" pattern="[0-9]+" title="Please enter only numbers" required>
 			</div>
 			<div class="form-group">
 				<label>Tanggal Pengambilan Foto</label><br/>
@@ -230,6 +227,9 @@ return true;
 
     // Fetch the booked dates when the photographer selection changes
     $('#fotografer_name').change(function() {
+		var selectedOption = $(this).find('option:selected');
+		var noTelp = selectedOption.data('no-telp');
+		$('#no_telp').val(noTelp);
         var fotografer_name = $(this).val();
 
 		        // Clear the date input field
